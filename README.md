@@ -1,63 +1,97 @@
-# RNA-Seq Quality Control Pipeline / RNA-Seq Kalite Kontrol Hattı
+> **Note:** This study was conducted for educational purposes only.
 
-<p align="center">
-  <a href="#-english-quality-control-report">🇺🇸 English</a> |
-  <a href="#-türkçe-kalite-kontrol-raporu">🇹🇷 Türkçe</a>
-</p>
+# Reference-Based RNA-Seq Analysis of Bacteriophage Lambda using NGS Data
+
+**Author:** Bedriye GENCER  
+**Institution:** Istanbul Health And Technology University  
+**Department:** Molecular Biology And Genetics  
+
+## 1. Introduction
+**Objective:** The aim of this study was to apply a quality control protocol to an RNA-seq dataset of unknown origin, remove detected low-quality reads and adapters via trimming, determine the taxonomic origin of the sequence through alignment, and identify the most highly expressed genes.
+
+**Background:** Bacteriophage Lambda serves as a fundamental model in molecular biology for understanding genomic structure and viral gene regulation. Its small genome size offers an accessible model for sequencing and in silico analysis.
+
+## 2. Methods
+The following in silico bioinformatics pipeline was implemented:
+
+* **Data Quality Control (QC):** Raw RNA-seq data were analyzed using **FastQC (v0.11.9)** to examine Phred scores and adapter contamination.
+* **Data Trimming:** Reads with a quality score below 20 were designated as low quality. These reads and adapter sequences were removed using **Trimmomatic** with the parameters `TRAILING:20` and `MINLEN:15`.
+* **Reference Genome Alignment:** Cleaned reads were aligned to the *Enterobacteria phage lambda* reference genome (NC_001416.1) using **Bowtie2**.
+* **Quantification:** Aligned reads were counted at the gene level using **featureCounts** (Subread package).
+* **Visualization:** Alignment depth and gene loci were visualized using **IGV**.
+
+## 3. Results
+### Quality Control
+Initial FastQC analysis revealed low quality scores (mean ~16). Following the trimming process, this value increased to approximately 20.
+
+![FastQC Before Trimming](images/fastqc_pre_trim.png)
+*Figure 1: Quality control results before trimming.*
+
+![FastQC After Trimming](images/fastqc_post_trim.png)
+*Figure 2: Quality control results after trimming.*
+
+### Alignment & Gene Expression
+* **Alignment Rate:** 98.48% alignment to the reference genome.
+* **Top Expressed Gene:** Tail Fiber Protein (ID: `lambdap27`).
+* **Second Top Gene:** Tail Tape Measure Protein (ID: `lambdap16`).
+
+![IGV Snapshot](images/igv_snapshot.png)
+*Figure 3: Snapshot obtained from IGV showing the Tail Fiber Protein gene region. Grey histograms indicate high read depth.*
+
+## 4. Discussion
+The observation of the highest expression in tail proteins suggests that the virus is in the **late stage of the lytic cycle**, assembling structural components prior to host cell lysis. IGV examination revealed single nucleotide mismatches, suggesting potential mutations or evolutionary divergence.
+
+## 5. Tools & Skills Demonstrated
+* **NGS Data Analysis:** QC, Trimming, Alignment, Quantification
+* **Tools:** FastQC, Trimmomatic, Bowtie2, Samtools, featureCounts, IGV
+* **Environment:** Linux Command Line, Conda
 
 ---
 
-<a name="-english-quality-control-report"></a>
-## 🇺🇸 English: Quality Control Report (Findings)
+# Bakteriyofaj Lambda'nın NGS Verisi Kullanılarak Referans Tabanlı RNA-Seq Analizi
 
-### 1. Project Overview
-This project performs a quality control (QC) analysis on a raw RNA-Seq dataset derived from *E. coli* (Bowtie2 example data). The goal is to assess sequencing quality, read length distribution, and potential issues before downstream analysis.
+**Yazar:** Bedriye GENCER  
+**Kurum:** İstanbul Sağlık ve Teknoloji Üniversitesi  
+**Bölüm:** Moleküler Biyoloji ve Genetik  
 
-### 2. Data Source
-- **Organism:** *Escherichia coli*
-- **Source:** Bowtie2 Example Data (Raw FASTQ)
-- **Data Type:** Single-end reads
-- **Total Sequences:** 10,000 reads
-- **Sequence Length:** Variable (40 – 354 bp)
-- **GC Content:** 49%
+## 1. Giriş
+**Amaç:** Bu çalışmanın amacı, bilinmeyen bir kaynaktan elde edilen RNA-seq veri setine kalite kontrol protokolü uygulamak, tespit edilen düşük kaliteli okumalar ve adaptörleri kırpma yoluyla çıkarmak, hizalama yoluyla dizinin taksonomik kökenini belirlemek ve en yüksek düzeyde eksprese edilen genleri tanımlamaktı.
 
-### 3. Key Findings & Analysis
-Based on FastQC reports and custom R visualizations (ShortRead/ggplot2), the following critical issues were identified:
+**Arka Plan:** Bakteriyofaj Lambda, genomik yapı ve viral gen regülasyonunu anlamak için moleküler biyolojide temel bir model olarak hizmet etmektedir. Küçük genom boyutu, dizileme ve in silico analiz için erişilebilir bir model sunmaktadır.
 
-* **Low Quality Scores (FAIL):** The *Per Base Sequence Quality* metrics indicate a significant drop in Phred scores (mean < 20) towards the 3' end of the reads. This suggests that the sequencing accuracy degrades as read length increases.
-* **Variable Read Lengths:** Unlike standard Illumina runs, the dataset contains reads of varying lengths. The quality decay is most prominent in longer reads (>250 bp).
-* **GC Content:** Spikes in GC content are attributed to the transcriptomic nature of the data (RNA-Seq expression bias) rather than contamination.
+## 2. Yöntemler
+Aşağıdaki in silico biyoinformatik işlem hattı uygulanmıştır:
 
-### 4. Conclusion & Action Plan
-* **Adapter Status:** No adapter contamination was detected (PASS).
-* **Action Required:** Although adapter trimming is not necessary, **Quality Trimming is mandatory.** A cutoff threshold (e.g., Phred 20) must be applied to remove low-quality bases at the 3' ends to prevent misalignment.
+* **Veri Kalite Kontrolü (QC):** Ham RNA-seq verileri, Phred skorlarını ve adaptör kontaminasyonunu incelemek için **FastQC (v0.11.9)** kullanılarak analiz edilmiştir.
+* **Veri Kırpma:** Kalite skoru 20'nin altında olan okumalar düşük kaliteli olarak belirlenmiştir. Bu okumalar ve adaptör dizileri, `TRAILING:20` ve `MINLEN:15` parametreleri ile **Trimmomatic** kullanılarak çıkarılmıştır.
+* **Referans Genom Hizalaması:** Temizlenmiş okumalar, **Bowtie2** kullanılarak *Enterobacteria phage lambda* referans genomuna (NC_001416.1) hizalanmıştır.
+* **Kantifikasyon:** Hizalanmış okumalar, **featureCounts** (Subread paketi) kullanılarak gen seviyesinde sayılmıştır.
+* **Görselleştirme:** Hizalama derinliği ve gen lokusları **IGV** kullanılarak görselleştirilmiştir.
 
-### 5. Visualization (R Output)
-![Quality Plot](results/quality_plot_R.png)
-*(R script output demonstrating the quality decay at the 3' end)*
+## 3. Bulgular
+### Kalite Kontrolü
+İlk FastQC analizi düşük kalite skorları (ortalama ~16) ortaya koymuştur. Kırpma işlemini takiben bu değer yaklaşık 20'ye yükselmiştir.
+
+![Kırpma Öncesi FastQC](images/fastqc_pre_trim.png)
+*Şekil 1: Kırpma öncesi kalite kontrol sonuçları.*
+
+![Kırpma Sonrası FastQC](images/fastqc_post_trim.png)
+*Şekil 2: Kırpma sonrası kalite kontrol sonuçları.*
+
+### Hizalama ve Gen Ekspresyonu
+* **Hizalama Oranı:** Referans genoma %98,48 hizalama.
+* **En Yüksek Eksprese Edilen Gen:** Kuyruk Fiberi Proteini (ID: `lambdap27`).
+* **İkinci En Yüksek Gen:** Kuyruk Bant Ölçüm Proteini (ID: `lambdap16`).
+
+![IGV Görüntüsü](images/igv_snapshot.png)
+*Şekil 3: Kuyruk Fiberi Proteini gen bölgesini gösteren IGV'den elde edilen görüntü. Gri histogramlar yüksek okuma derinliğini göstermektedir.*
+
+## 4. Tartışma
+Kuyruk proteinlerinde en yüksek ekspresyonun gözlemlenmesi, virüsün konak hücre lizisinden önce yapısal bileşenleri bir araya getirdiği **litik döngünün geç aşamasında** olduğunu düşündürmektedir. IGV incelemesi, potansiyel mutasyonlar veya evrimsel farklılaşma öneren tek nükleotid uyumsuzlukları ortaya koymuştur.
+
+## 5. Gösterilen Araçlar ve Beceriler
+* **NGS Veri Analizi:** QC, Kırpma, Hizalama, Kantifikasyon
+* **Araçlar:** FastQC, Trimmomatic, Bowtie2, Samtools, featureCounts, IGV
+* **Ortam:** Linux Komut Satırı, Conda
 
 ---
-
-<a name="-türkçe-kalite-kontrol-raporu"></a>
-## 🇹🇷 Türkçe: Kalite Kontrol Raporu (Bulgular)
-
-### 1. Proje Özeti
-Bu proje, *E. coli* organizmasına ait ham RNA-Seq verileri üzerinde gerçekleştirilen bir kalite kontrol (QC) çalışmasıdır. Amaç, hizalama (alignment) aşaması öncesinde verinin dizileme kalitesini ve güvenilirliğini test etmektir.
-
-### 2. Veri Kaynağı
-- **Organizasyon:** *Escherichia coli*
-- **Kaynak:** Bowtie2 Örnek Verisi (Ham FASTQ)
-- **Toplam Sekans:** 10,000 okuma
-- **Sekans Uzunluğu:** Değişken (40 – 354 bp)
-- **%GC Oranı:** 49%
-
-### 3. Temel Bulgular ve Analiz
-FastQC raporu ve R (ggplot2) ile yapılan doğrulama analizleri sonucunda şu kritik noktalar tespit edilmiştir:
-
-* **Düşük Kalite Skorları:** *Baz Başına Dizi Kalitesi* grafiği incelendiğinde, okumaların 3' ucuna doğru Phred kalite skorlarının ciddi oranda düştüğü (ortalama < 20) ve "riskli bölgeye" girdiği görülmüştür.
-* **Değişken Okuma Uzunlukları:** Standart dizilemelerin aksine, bu veri setinde okuma uzunlukları değişkendir. Kalite düşüşü özellikle uzun okumaların (250 bp üzeri) son kısımlarında belirgindir.
-* **GC İçeriği:** GC grafiğindeki dalgalanmaların, kontaminasyondan ziyade RNA-Seq verisinin doğasından (transkriptomik ifade farkları) kaynaklandığı değerlendirilmiştir.
-
-### 4. Sonuç ve Aksiyon Planı
-* **Adaptör Durumu:** Veride adaptör kirliliğine rastlanmamıştır (Temiz).
-* **Karar:** Adaptör kırpma işlemine gerek duyulmasa da, **Kalite Kırpması (Quality Trimming) zorunludur.** Hizalama hatalarını önlemek için, Phred skoru 20'nin altında kalan kalitesiz uçların kesilip atılması gerekmektedir.
