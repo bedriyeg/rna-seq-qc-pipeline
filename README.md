@@ -89,9 +89,23 @@ Aşağıdaki in silico biyoinformatik işlem hattı uygulanmıştır:
 ## 4. Tartışma
 Kuyruk proteinlerinde en yüksek ekspresyonun gözlemlenmesi, virüsün konak hücre lizisinden önce yapısal bileşenleri bir araya getirdiği **litik döngünün geç aşamasında** olduğunu düşündürmektedir. IGV incelemesi, potansiyel mutasyonlar veya evrimsel farklılaşma öneren tek nükleotid uyumsuzlukları ortaya koymuştur.
 
-## 5. Gösterilen Araçlar ve Beceriler
+## 5. Kazanılan Yetkinlikler
 * **NGS Veri Analizi:** QC, Kırpma, Hizalama, Kantifikasyon
 * **Araçlar:** FastQC, Trimmomatic, Bowtie2, Samtools, featureCounts, IGV
 * **Ortam:** Linux Komut Satırı, Conda
 
----
+## REFERENCES 
+
+Andrews, S. (2010). FastQC: a quality control tool for high throughput sequence data. 
+
+Bolger, A. M., Lohse, M., & Usadel, B. (2014). Trimmomatic: a flexible trimmer for Illumina sequence data. 
+
+Casjens, S. R., & Hendrix, R. W. (2015). Bacteriophage lambda: Early pioneer and still relevant. 
+
+Langmead, B., et al. (2018). Scaling read aligners to hundreds of threads on general-purpose processors. 
+
+Liao, Y., Smyth, G. K., & Shi, W. (2013). featureCounts: an efficient general purpose program for assigning sequence reads to genomic features. 
+
+Robinson, J. T., et al. (2011). Integrative genomics viewer. 
+
+Thorvaldsdóttir, H., et al. (2013). Integrative Genomics Viewer (IGV)
